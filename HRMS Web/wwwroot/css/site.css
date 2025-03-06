@@ -17,6 +17,18 @@ html {
   min-height: 100%;
 }
 
-body {
-  margin-bottom: 60px;
+
+.wrapper {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh; /* Full viewport height */
+}
+
+.main-content {
+    flex: 1; /* Pushes the footer down */
+}
+
+footer
+{
+    padding: 20px;
 }
