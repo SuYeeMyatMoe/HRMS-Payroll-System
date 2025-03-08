@@ -1,6 +1,7 @@
 ﻿using HRMS_Web.DAO;
 using HRMS_Web.Models.DataModels;
 using HRMS_Web.Models.ViewModels;
+using HRMS_Web.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRMS_Web.Controllers
@@ -18,8 +19,9 @@ namespace HRMS_Web.Controllers
         {
             return View();
         }
+
         [HttpPost]
-        public IActionResult Entry(PositionViewModel position_model)
+        public async Task<IActionResult> Entry(PositionViewModel position_model)
         {
             try
             {
@@ -33,22 +35,22 @@ namespace HRMS_Web.Controllers
                     CreatedAt = DateTime.Now,
                     CreatedBy = "admin",
                     IsActive = true,
-                    Ip = ""
+                    Ip = await NetworkHelper.GetIPAddress()
                 };
                 _dbcontext.Positions.Add(positionEntity);//adding the record to the context [Postions is from DBContext]
                 _dbcontext.SaveChanges();//saving the data to database in here
 
                 //Message to show success 
-                TempData["Msg"] = "The Position is saved successfully";
+                TempData["Msg"] = "New Position is saved successfully!";
                 //check if error is occured
                 TempData["IsErrorOccur"] = false;
             }
             catch (Exception e)
             {
-                TempData["Msg"] = "Error is occured. Please, Try again.";
+                TempData["Msg"] = "There are some errors in saving the record!";
                 //check if error is occured
                 TempData["IsErrorOccur"] = true;
-                
+
             }
             return RedirectToAction("List");
         }
