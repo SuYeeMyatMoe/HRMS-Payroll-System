@@ -1,5 +1,45 @@
-﻿@*
-    For more information on enabling MVC for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
-*@
-@{
-}
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <title>Department Entry</title>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+    <h3>Department Entry Form</h3>
+    <form action="/department/entry" method="post">
+        <div class="mb-3">
+            <label for="Name" class="form-label">Name</label>
+            <input type="text" class="form-control" name="Code" id="txtCode" placeholder="Type code in here" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" name="Description" id="txtDescription" placeholder="Type position description here" required>
+        </div>
+        <div class="mb-3">
+            <label for="level" class="form-label">Extension Phone</label>
+            <input type="number" class="form-control" name="Level" placeholder="Type Extension Phone">
+        </div>
+        <button type="submit" class="btn btn-success" id="btnEntry" disabled>Save</button>
+        <button type="reset" class="btn btn-primary">Cancel</button>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            //initially disable the entry button
+            $('#btnEntry').attr('disabled', true);
+            //function defination
+            function toggleEntryButton() {
+                if ($('#txtCode').val().length != 0 && $('#txtDescription').val().length != 0) {
+                    $('#btnEntry').attr('disabled', false);
+                } else {
+                    $('#btnEntry').attr('disabled', true);
+                }
+            }
+            $('#txtCode, #txtDescription').keyup(function () {
+                toggleEntryButton();
+            });
+        });
+    </script>
+</body>
+</html>
+
