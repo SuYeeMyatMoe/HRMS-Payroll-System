@@ -60,11 +60,14 @@ namespace HRMS_Web.Controllers
         {
             IList<PositionViewModel> positionViews = _dbcontext.Positions
        .Where(w => w.IsActive)
+       .OrderBy(o => o.CreatedAt)
        .Select(s => new PositionViewModel
        {
+           
            Name = s.Name,
            Description = s.Description,
            Level = s.Level ?? 0 // Avoids null reference issue
+           
        })
        .ToList(); // LINQ query with PositionViewModel as the result object
 
