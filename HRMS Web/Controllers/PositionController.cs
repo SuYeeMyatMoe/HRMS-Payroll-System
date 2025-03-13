@@ -58,7 +58,17 @@ namespace HRMS_Web.Controllers
         //To show success result
         public IActionResult List()
         {
-            return View();
+            IList<PositionViewModel> positionViews = _dbcontext.Positions
+       .Where(w => w.IsActive)
+       .Select(s => new PositionViewModel
+       {
+           Name = s.Name,
+           Description = s.Description,
+           Level = s.Level ?? 0 // Avoids null reference issue
+       })
+       .ToList(); // LINQ query with PositionViewModel as the result object
+
+            return View(positionViews);
         }
     }
 }
