@@ -71,7 +71,12 @@ namespace HRMS_Web.Controllers
        })
        .ToList(); // LINQ query with PositionViewModel as the result object
 
-            return View(positionViews);
+            return View(positionViews);// this will return the list of positions (without adding positionViews will return null in Model of view page)
+        }
+
+        public IActionResult Edit()
+        {
+            return View();
         }
     }
 }

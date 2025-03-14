@@ -17,6 +17,21 @@ html {
   min-height: 100%;
 }
 
+.navbar-dark .nav-link {
+    transition: 0.3s;
+}
+
+    .navbar-dark .nav-link:hover {
+        color: #bbb !important; /* Light gray on hover */
+    }
+
+.navbar-dark .dropdown-menu-dark {
+    background-color: #222;
+}
+
+.navbar-dark .dropdown-item:hover {
+    background-color: #444;
+}
 
 .wrapper {
     display: flex;

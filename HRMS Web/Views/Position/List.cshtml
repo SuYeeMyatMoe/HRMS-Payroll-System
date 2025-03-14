@@ -13,7 +13,7 @@
             <span>@TempData["Msg"]</span>
         </div>
     }
-    else if (TempData["Msg"] != null)
+    else if (TempData["Msg"] != null)//Else only will appear this message box (so use else if)
     {
         <div class="alert alert-danger" role="alert">
             <span>@TempData["Msg"]</span>
@@ -30,17 +30,17 @@
             </tr>
         </thead>
         <tbody>
-          <!--To be dynamic List-->
+          <!--To be a dynamic list, iterate the model as array-->
           @foreach(var item in Model)
             {
                 <tr>
-                    <th scope="row">@(Model.IndexOf(item) + 1)</th>
+                    <th scope="row">@(Model.IndexOf(item) + 1)</th><!--serial number with increment for the index of array(Model)-->
                     <td>@item.Name</td>
                     <td>@item.Description</td>
                     <td>@item.Level</td>
                     <td>
                         <a href=" " class="btn btn-success" role="button">Edit</a>
-                        <a href=" " class="btn bg-danger" role="button" onclick="return confirm('Are you sure to delete this recrod?')">Delete</a>
+                        <a href=" " class="btn bg-danger" role="button" onclick="return confirm('Are you sure to delete this record?')">Delete</a>
                     </td>
                 </tr>
             }
