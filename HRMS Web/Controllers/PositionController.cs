@@ -74,9 +74,19 @@ namespace HRMS_Web.Controllers
             return View(positionViews);// this will return the list of positions (without adding positionViews will return null in Model of view page)
         }
 
-        public IActionResult Edit()
+        public IActionResult Edit(string id)
         {
-            return View();
+            PositionViewModel positionView = _dbcontext.Positions//similar to list 
+                .Where(w=>w.IsActive && w.Id == id)
+                .Select(s=>new PositionViewModel
+            { 
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description,
+                Level = s.Level ?? 0
+            }).FirstOrDefault();
+            return View(positionView);
+
         }
         public IActionResult Update()
         {
@@ -88,7 +98,7 @@ namespace HRMS_Web.Controllers
         {
             try
             {
-                PositionEntity positionEntity = _dbcontext.Positions.Where(w => w.Id == id).FirstOrDefault();//retrive the record from database
+                PositionEntity positionEntity = _dbcontext.Positions.Where(w => w.Id == id).FirstOrDefault();//retrive the selected record from database
                 if (positionEntity != null)
                 {
                     positionEntity.IsActive = false;

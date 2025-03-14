@@ -39,7 +39,7 @@
                     <td>@item.Description</td>
                     <td>@item.Level</td>
                     <td>
-                        <a href="" class="btn btn-success" role="button">Edit</a>
+                        <a href="/position/edit?id=@item.Id" class="btn btn-success" role="button">Edit</a>
                         <a href="/position/delete?id=@item.Id" class="btn bg-danger" role="button" onclick="return confirm('Are you sure to delete this record?')">Delete</a>
                     </td>
                 </tr>
