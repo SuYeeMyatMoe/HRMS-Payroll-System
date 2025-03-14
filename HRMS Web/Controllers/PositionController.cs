@@ -59,11 +59,11 @@ namespace HRMS_Web.Controllers
         public IActionResult List()
         {
             IList<PositionViewModel> positionViews = _dbcontext.Positions
-       .Where(w => w.IsActive)
+       .Where(w => w.IsActive==true)
        .OrderBy(o => o.CreatedAt)
        .Select(s => new PositionViewModel
        {
-           
+           Id = s.Id,
            Name = s.Name,
            Description = s.Description,
            Level = s.Level ?? 0 // Avoids null reference issue
@@ -77,6 +77,37 @@ namespace HRMS_Web.Controllers
         public IActionResult Edit()
         {
             return View();
+        }
+        public IActionResult Update()
+        {
+            return RedirectToAction("List");
+        }
+
+        // /position/delete?id=@item.Id
+        public IActionResult Delete(string id)//for primary key
+        {
+            try
+            {
+                PositionEntity positionEntity = _dbcontext.Positions.Where(w => w.Id == id).FirstOrDefault();//retrive the record from database
+                if (positionEntity != null)
+                {
+                    positionEntity.IsActive = false;
+                    _dbcontext.Positions.Update(positionEntity);//update the record in the context
+                    _dbcontext.SaveChanges();//saving the data in database
+                    //Message to show success 
+                    TempData["Msg"] = "This Position is deleted successfully!";
+                    //check if error is occured
+                    TempData["IsErrorOccur"] = false;
+                }
+            }
+            catch (Exception)
+            {
+                TempData["Msg"] = "There are some errors in deleting the record!";
+                //check if error is occured
+                TempData["IsErrorOccur"] = true;
+                
+            }
+            return RedirectToAction("List");
         }
     }
 }
