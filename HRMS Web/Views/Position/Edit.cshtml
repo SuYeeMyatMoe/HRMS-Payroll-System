@@ -28,19 +28,25 @@
     <script>
         $(document).ready(function () {
             //initially disable the update button
-             $('#btnUpdate').attr('disabled', true);
-            //function defination
+            $('#btnUpdate').attr('disabled', true);
+
+            //function definition
             function toggleEntryButton() {
-                if ($('#txtName').val().length != 0 && $('#txtDescription').val().length != 0) {
+                if ($('#txtName').val().length != 0 &&
+                    $('#txtDescription').val().length != 0 &&
+                    $('#txtLevel').val().length != 0) { // Fixed missing closing parenthesis
                     $('#btnUpdate').attr('disabled', false);
                 } else {
                     $('#btnUpdate').attr('disabled', true);
                 }
             }
-            $('#txtName,#txtDescription').keyup(function () {
+
+            $('#txtName,#txtDescription,#txtLevel').on('input', function () { // Changed 'keyup' to 'input'
                 toggleEntryButton();
             });
         });
     </script>
+
+
     </body>
     </html>

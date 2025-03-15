@@ -88,6 +88,8 @@ namespace HRMS_Web.Controllers
             return View(positionView);
 
         }
+
+        [HttpPost]
         public async Task<IActionResult> Update(PositionViewModel positionVM)
         {
             try
