@@ -88,8 +88,35 @@ namespace HRMS_Web.Controllers
             return View(positionView);
 
         }
-        public IActionResult Update()
+        public async Task<IActionResult> Update(PositionViewModel positionVM)
         {
+            try
+            {
+                PositionEntity currentPosition = _dbcontext.Positions.Where(w => w.IsActive && w.Id == positionVM.Id).FirstOrDefault();//retrieve selected data
+                if(currentPosition is not null)
+                    {
+                    currentPosition.Name = positionVM.Name;
+                    currentPosition.Description = positionVM.Description;
+                    currentPosition.Level = positionVM.Level;
+                    currentPosition.UpdatedAt = DateTime.Now;
+                    currentPosition.UpdatedBy = "admin";
+                    currentPosition.Ip = await NetworkHelper.GetIPAddress();
+                    
+                    _dbcontext.Positions.Update(currentPosition);//update the record in the context
+                    _dbcontext.SaveChanges();//saving the data in database
+                    //Message to show success 
+                    TempData["Msg"] = "This Position is updated successfully!";
+                    //check if error is occured
+                    TempData["IsErrorOccur"] = false;
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["Msg"] = "There are some errors in saving the record!";
+                //check if error is occured
+                TempData["IsErrorOccur"] = true;
+
+            }
             return RedirectToAction("List");
         }
 
