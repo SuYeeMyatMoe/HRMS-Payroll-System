@@ -39,8 +39,8 @@
                     <td>@item.Description</td>
                     <td>@item.ExtensionPhone</td>
                     <td>
-                        <a href="/position/edit?id" class="btn btn-success" role="button">Edit</a>
-                        <a href="/position/delete?id" class="btn bg-danger" role="button" onclick="return confirm('Are you sure to delete this record?')">Delete</a>
+                        <a href="/department/edit?id=@item.Id" class="btn btn-success" role="button">Edit</a>
+                        <a href="/department/delete?id=@item.Id" class="btn bg-danger" role="button" onclick="return confirm('Are you sure to delete this record?')">Delete</a>
                     </td>
                 </tr>
             }
