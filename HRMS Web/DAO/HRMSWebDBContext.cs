@@ -12,6 +12,7 @@ namespace HRMS_Web.DAO
         // register all the Data Model as DBSet
         public DbSet<PositionEntity> Positions { get; set; }//DbSet is a collection of entities that can be queried from the database
         public DbSet<DepartmentEntity> Departments { get; set; }
+        public DbSet<EmployeeEntity> Employees { get; set; }
   
 
     }
