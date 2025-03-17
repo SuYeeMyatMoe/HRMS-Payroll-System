@@ -1,88 +1,92 @@
 ﻿@model EmployeeViewModel
+
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Employee Entry</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
 </head>
 <body>
-    <h3>Employee Entry Form</h3>
-    <form action="/position/entry" method="post">
-        <div class="mb-3">
-            <label for="Code" class="form-label">Code</label>
-            <input type="text" class="form-control" name="Code" id="txtCode" placeholder="Type department code in here" required>
+    <div class="container mt-5">
+        <div class="card shadow-lg p-4">
+            <h3 class="text-center mb-4">Employee Entry Form</h3>
+            <form action="/position/entry" method="post">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="Code" class="form-label">Code</label>
+                        <input type="text" class="form-control" name="Code" id="txtCode" placeholder="Department Code" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Name" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="Name" id="txtName" placeholder="Position Name" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="description" class="form-label">Description</label>
+                        <input type="text" class="form-control" name="Description" id="txtDescription" placeholder="Position Description" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Department" class="form-label">Department</label>
+                        <select class="form-select" name="Department">
+                            <option selected>Select Department</option>
+                            @foreach (var department in Model.DepartmentViewModels)
+                            {
+                                <option value="@department.Id">@department.Code</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Position" class="form-label">Position</label>
+                        <select class="form-select" name="Position">
+                            <option selected>Select Position</option>
+                            @foreach (var position in Model.PositionViewModels)
+                            {
+                                <option value="@position.Id">@position.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="BasicSalary" class="form-label">Basic Salary</label>
+                        <input type="number" class="form-control" name="BasicSalary" id="txtBasicSalary" placeholder="Basic Salary">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="DOB" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" name="DOB" id="txtDOB">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="DOE" class="form-label">Date of Employment</label>
+                        <input type="date" class="form-control" name="DOE" id="txtDOE" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="DOR" class="form-label">Date of Retirement</label>
+                        <input type="date" class="form-control" name="DOR" id="txtDOR">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Phone" class="form-label">Phone</label>
+                        <input type="text" class="form-control" name="Phone" placeholder="Phone Number">
+                    </div>
+                    <div class="col-md-12">
+                        <label for="Address" class="form-label">Address</label>
+                        <input type="text" class="form-control" name="Address" placeholder="Address">
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success" id="btnEntry" disabled>Submit</button>
+                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
         </div>
-        <div class="mb-3">
-            <label for="Name" class="form-label">Name</label>
-            <input type="text" class="form-control" name="Name" id="txtName" placeholder="Type position name here" required>
-        </div>
-        <div class="mb-3">
-            <label for="description" class="form-label">Description</label>
-            <input type="text" class="form-control" name="Description" id="txtDescription" placeholder="Type position description here" required>
-        </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Department</label>
-                <select class="form-select" name="Department">                
-                    <option selected>Select the department</option>
-                    @foreach (var department in Model.DepartmentViewModels)
-                    {
-                        <option value="@department.Id">@department.Code</option>
-                    }
-                </select>
-             </div>
-            <div class="mb-3">
-                <label for="description" class="form-label">Position</label>
-                <select class="form-select" name="Position">
-                    <option selected>Select the Position</option>
-                    @foreach (var position in Model.PositionViewModels)
-                    {
-                        <option value="@position.Id">@position.Name</option>
-                    }
-                </select>
-            </div>
-            <div class="mb-3">
-                <label for="BasicSalary" class="form-label">Basic Salary</label>
-                <input type="number" class="form-control" name="BasicSalary" id="txtBasicSalary" placeholder="type employee Basic Salary in here">
-            </div>
-            <div class="mb-3">
-                <label for="DOR" class="form-label">DOB</label>
-                <input type="date" class="form-control" name="DOR" id="txtDOB" placeholder="type employee date of birth in here">
-            </div>
-            <div class="mb-3">
-                <label for="DOE" class="form-label">DOE</label>
-                <input type="date" class="form-control" name="DOE" id="txtDOE" placeholder="type employee DOE in here" required>
-            </div>
-            <div class="mb-3">
-                <label for="DOR" class="form-label">DOR</label>
-            <input type="date" class="form-control" name="DOR" id="txtDOR" placeholder="type employee date of retirement in here">
-            </div>
-            <div class="mb-3">
-                <label for="Phone" class="form-label">Phone</label>
-                <input type="text" class="form-control" name="Phone" placeholder="type Phone in here">
-            </div>
-            <div class="mb-3">
-                <label for="Address" class="form-label">Address</label>
-                <input type="text" class="form-control" name="Address" placeholder="type Address in here">
-            </div>
-        <button type="submit" class="btn btn-success" id="btnEntry" disabled>Entry</button>
-        <button type="reset" class="btn btn-primary">Cancel</button>
-    </form>
+    </div>
 
     <script>
         $(document).ready(function () {
-            //initially disable the entry button
-            $('#btnEntry').attr('disabled', true);
-            //function defination
+            $('#btnEntry').prop('disabled', true);
             function toggleEntryButton() {
-                if ($('#txtName').val().length != 0 && $('#txtCode').val().length != 0) {
-                    $('#btnEntry').attr('disabled', false);
-                } else {
-                    $('#btnEntry').attr('disabled', true);
-                }
+                $('#btnEntry').prop('disabled', !($('#txtName').val().length > 0 && $('#txtCode').val().length > 0));
             }
-            $('#txtName, #txtCode').keyup(function () {
-                toggleEntryButton();
-            });
+            $('#txtName, #txtCode').on('keyup', toggleEntryButton);
         });
     </script>
 </body>
