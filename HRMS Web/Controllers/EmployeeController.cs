@@ -12,7 +12,8 @@ namespace HRMS_Web.Controllers
         {
             this._dBContext = dBContext;
         }
-    
+
+        [HttpGet]
         public IActionResult Entry()
         {
             EmployeeViewModel employeeViewModel = new EmployeeViewModel()//create object of EmployeeViewModel

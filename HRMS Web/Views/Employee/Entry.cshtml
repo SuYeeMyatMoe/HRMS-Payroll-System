@@ -1,0 +1,49 @@
+﻿@model EmployeeViewModel
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Entry</title>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+    <h3>Employee Entry Form</h3>
+    <form action="/position/entry" method="post">
+        <div class="mb-3">
+            <label for="Code" class="form-label">Code</label>
+            <input type="text" class="form-control" name="Code" id="txtCode" placeholder="Type department code in here" required>
+        </div>
+        <div class="mb-3">
+            <label for="Name" class="form-label">Name</label>
+            <input type="text" class="form-control" name="Name" id="txtName" placeholder="Type position name here" required>
+        </div>
+        <div class="mb-3">
+            <label for="description" class="form-label">Description</label>
+            <input type="text" class="form-control" name="Description" id="txtDescription" placeholder="Type position description here" required>
+        </div>
+        <div class="mb-3">
+            <label for="level" class="form-label">Level</label>
+            <input type="number" class="form-control" name="Level" placeholder="Type level here">
+        </div>
+        <button type="submit" class="btn btn-success" id="btnEntry" disabled>Entry</button>
+        <button type="reset" class="btn btn-primary">Cancel</button>
+    </form>
+
+    <script>
+        $(document).ready(function () {
+            //initially disable the entry button
+            $('#btnEntry').attr('disabled', true);
+            //function defination
+            function toggleEntryButton() {
+                if ($('#txtName').val().length != 0 && $('#txtDescription').val().length != 0) {
+                    $('#btnEntry').attr('disabled', false);
+                } else {
+                    $('#btnEntry').attr('disabled', true);
+                }
+            }
+            $('#txtName, #txtDescription').keyup(function () {
+                toggleEntryButton();
+            });
+        });
+    </script>
+</body>
+</html>
