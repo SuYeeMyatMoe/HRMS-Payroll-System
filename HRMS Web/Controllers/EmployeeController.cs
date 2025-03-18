@@ -1,5 +1,7 @@
 ﻿using HRMS_Web.DAO;
+using HRMS_Web.Models.DataModels;
 using HRMS_Web.Models.ViewModels;
+using HRMS_Web.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace HRMS_Web.Controllers
@@ -39,9 +41,44 @@ namespace HRMS_Web.Controllers
             return View(employeeViewModel);
         }
         [HttpPost]
-        public IActionResult Entry(EmployeeViewModel employeeViewModel)
+        public async Task<IActionResult> Entry(EmployeeViewModel employeeViewModel)
         {
-            
+            try
+            {
+                EmployeeEntity employeeEntity = new EmployeeEntity()
+                {
+                    Id = Guid.NewGuid().ToString(),
+                    Code = employeeViewModel.Code,
+                    Name = employeeViewModel.Name,
+                    Email = employeeViewModel.Email,
+                    DOB = employeeViewModel.DOB,
+                    DOE = employeeViewModel.DOE,
+                    DOR = employeeViewModel.DOR,
+                    Address = employeeViewModel.Address,
+                    BasicSalary = employeeViewModel.BasicSalary,
+                    Phone = employeeViewModel.Phone,
+                    DepartmentID = employeeViewModel.DepartmentID,
+                    PositionID = employeeViewModel.PositionID,
+                    Gender = employeeViewModel.Gender,
+                    IsActive = true,
+                    CreatedBy = "Admin",
+                    CreatedAt = DateTime.Now,
+                    Ip = await NetworkHelper.GetIPAddress()
+                };//DTO process which is changing from viewmodel to entity(datamodel)
+                _dBContext.Employees.Add(employeeEntity);//add entity to dbcontext
+                _dBContext.SaveChangesAsync();//save the changes to database
+                //Message to show success 
+                TempData["Msg"] = "New Employee is saved successfully!";
+                //check if error is occured
+                TempData["IsErrorOccur"] = false;
+            }
+            catch (Exception e)
+            {
+                TempData["Msg"] = "There are some errors in saving the record!";
+                //check if error is occured
+                TempData["IsErrorOccur"] = true;
+
+            }
             return RedirectToAction("List");
         }
         public IActionResult List()

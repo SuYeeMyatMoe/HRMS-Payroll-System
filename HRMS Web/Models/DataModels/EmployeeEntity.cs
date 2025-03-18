@@ -17,5 +17,6 @@ namespace HRMS_Web.Models.DataModels
         public string? Phone { get; set; }
         public required string DepartmentID { get; set; }
         public required string PositionID { get; set; }
+
     }
 }
