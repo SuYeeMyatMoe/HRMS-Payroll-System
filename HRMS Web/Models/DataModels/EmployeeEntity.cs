@@ -11,7 +11,7 @@ namespace HRMS_Web.Models.DataModels
         public required char Gender { get; set; }
         public required DateTime DOB { get; set; }
         public required DateTime DOE { get; set; }
-        public DateTime DOR { get; set; }
+        public DateTime? DOR { get; set; }
         public required string Address { get; set; }
         public required Decimal BasicSalary { get; set; }
         public string? Phone { get; set; }

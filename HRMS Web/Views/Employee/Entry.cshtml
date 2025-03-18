@@ -65,12 +65,13 @@
                         </select>
                     </div>
                     <div class="col-md-6">
-                        <label for="BasicSalary" class="form-label">Basic Salary</label>
+                        <label for="BasicSalary" class="form-label">Basic Salary ($)</label>
                         <input type="number" class="form-control" name="BasicSalary" id="txtBasicSalary" placeholder="Basic Salary" required>
                     </div>
                     <div class="col-md-6">
                         <label for="DOB" class="form-label">Date of Birth</label>
                         <input type="date" class="form-control" name="DOB" id="txtDOB" required max="@DateTime.Now.ToString("yyyy-MM-dd")">
+                        <!--max wil cotrol user to not be able to choose beyond current time-->
                     </div>
                     <div class="col-md-6">
                         <label for="DOE" class="form-label">Date of Employment</label>
