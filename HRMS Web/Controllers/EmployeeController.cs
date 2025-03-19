@@ -3,6 +3,7 @@ using HRMS_Web.Models.DataModels;
 using HRMS_Web.Models.ViewModels;
 using HRMS_Web.Utilities;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace HRMS_Web.Controllers
 {
@@ -83,7 +84,23 @@ namespace HRMS_Web.Controllers
         }
         public IActionResult List()
         {
-            return View();
+            IList<EmployeeViewModel> employeeViews = _dBContext.Employees
+        .Where(w => w.IsActive)//same with  == true
+        .OrderBy(o => o.CreatedAt)
+        .Select(s => new EmployeeViewModel
+        {
+            Id = s.Id,
+            Code = s.Code,
+            Name = s.Name,
+            Email = s.Email,
+            Gender=s.Gender,
+            DOB = s.DOB,
+            BasicSalary = s.BasicSalary
+        })
+        .ToList(); // LINQ query with PositionViewModel as the result object
+
+            return View(employeeViews);// this will return the list of positions (without adding positionViews will return null in Model of view page)
         }
     }
-}
+    }
+
