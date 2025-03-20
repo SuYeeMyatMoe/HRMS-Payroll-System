@@ -1,8 +1,54 @@
 ﻿@{
-    ViewData["Title"] = "Home Page";
+    ViewData["Title"] = "HR Payroll System";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<div class="container mt-5">
+    <div class="text-center">
+        <h1 class="display-4 text-primary fw-bold">Welcome to HR Payroll System</h1>
+        <p class="lead text-muted">Automate Attendance, Payroll, and Employee Management</p>
+    </div>
+
+    <!-- Features Section -->
+    <div class="row mt-4">
+        <div class="col-md-6">
+            <img src="~/images/hr-payroll.jpg" class="img-fluid rounded shadow" alt="HR Payroll System">
+        </div>
+        <div class="col-md-6 d-flex align-items-center">
+            <div>
+                <h3 class="text-dark">Key Features</h3>
+                <ul class="list-group list-group-flush">
+                    <li class="list-group-item"><i class="bi bi-clock text-success"></i> Daily Attendance Tracking</li>
+                    <li class="list-group-item"><i class="bi bi-calendar text-success"></i> Shift Attendance & Scheduling</li>
+                    <li class="list-group-item"><i class="bi bi-people text-success"></i> Employee Records Management</li>
+                    <li class="list-group-item"><i class="bi bi-bar-chart text-success"></i> Admin Reports & Insights</li>
+                    <li class="list-group-item"><i class="bi bi-cash text-success"></i> Automated Payroll Processing</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+
+    <!-- Navigation Buttons -->
+    <div class="row text-center mt-5">
+        <div class="col-md-4">
+            <a href="/#" class="btn btn-primary w-100 py-3 shadow">Daily Attendance</a>
+        </div>
+        <div class="col-md-4">
+            <a href="/#" class="btn btn-success w-100 py-3 shadow">Shift Attendance</a>
+        </div>
+        <div class="col-md-4">
+            <a href="/#" class="btn btn-info w-100 py-3 shadow">Manage Shifts</a>
+        </div>
+    </div>
+
+    <div class="row text-center mt-4">
+        <div class="col-md-4">
+            <a href="/#" class="btn btn-warning w-100 py-3 shadow">Admin Reports</a>
+        </div>
+        <div class="col-md-4">
+            <a href="/#" class="btn btn-dark w-100 py-3 shadow">Generate Payroll</a>
+        </div>
+        <div class="col-md-4">
+            <a href="/#" class="btn btn-secondary w-100 py-3 shadow">Employee Records</a>
+        </div>
+    </div>
 </div>
