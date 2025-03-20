@@ -11,7 +11,7 @@
     <div class="container mt-5">
         <div class="card shadow-lg p-4">
             <h3 class="text-center mb-4">Employee Entry Form</h3>
-                <form action="/employee/entry" method="post">
+                <form action="/employee/update" method="post">
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="Code" class="form-label">Code</label>
@@ -115,11 +115,26 @@
     <script>
         $(document).ready(function () {
             $('#btnEntry').prop('disabled', true);
+
             function toggleEntryButton() {
-                $('#btnEntry').prop('disabled', !($('#txtName').val().length > 0 && $('#txtCode').val().length > 0));
+                let formChanged = false;
+
+                // Loop through all input and select fields inside the form
+                $('form input, form select').each(function () {
+                    if ($(this).val().trim().length > 0) {
+                        formChanged = true;
+                        return false; // Break the loop if any field has data
+                    }
+                });
+
+                // Enable the button if any input/select field has a value
+                $('#btnEntry').prop('disabled', !formChanged);
             }
-            $('#txtName, #txtCode').on('keyup', toggleEntryButton);
+
+            // Listen for input changes on all input and select elements
+            $('form input, form select').on('input change', toggleEntryButton);
         });
     </script>
+
 </body>
 </html>

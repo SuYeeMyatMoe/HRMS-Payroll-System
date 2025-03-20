@@ -2,8 +2,12 @@
 using HRMS_Web.Models.DataModels;
 using HRMS_Web.Models.ViewModels;
 using HRMS_Web.Utilities;
+using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using System.Net;
+using System.Numerics;
+using System.Reflection;
 
 namespace HRMS_Web.Controllers
 {
@@ -133,6 +137,54 @@ namespace HRMS_Web.Controllers
             employeeView.DepartmentViewModels = GetAllDepartments();
             employeeView.PositionViewModels = GetAllPositions();
            return View(employeeView);
+        }
+        [HttpPost]
+        public async Task<ActionResult> Update(EmployeeViewModel employeeViewModel)
+        {
+            try
+            {
+                EmployeeEntity currentEmployee = _dBContext.Employees
+            .Where(e => e.IsActive && e.Id == employeeViewModel.Id)
+            .FirstOrDefault();
+
+                if (currentEmployee == null)
+                {
+                    TempData["Msg"] = "Employee not found!";
+                    TempData["IsErrorOccur"] = true;
+                    return RedirectToAction("List");
+                }
+
+                currentEmployee.Code = employeeViewModel.Code;
+                currentEmployee.Name = employeeViewModel.Name;
+                currentEmployee.Email = employeeViewModel.Email;
+                currentEmployee.DOB = employeeViewModel.DOB;
+                currentEmployee.DOE = employeeViewModel.DOE;
+                currentEmployee.DOR = employeeViewModel.DOR; 
+
+                currentEmployee.Address = employeeViewModel.Address;
+                currentEmployee.BasicSalary = employeeViewModel.BasicSalary;
+                currentEmployee.Phone = employeeViewModel.Phone;
+                currentEmployee.DepartmentID = employeeViewModel.DepartmentID;
+                currentEmployee.PositionID = employeeViewModel.PositionID;
+                currentEmployee.Gender = employeeViewModel.Gender;
+
+                currentEmployee.UpdatedBy = "Admin";
+                currentEmployee.UpdatedAt = DateTime.Now;
+                currentEmployee.Ip = await NetworkHelper.GetIPAddress();
+
+                _dBContext.Employees.Update(currentEmployee);
+                await _dBContext.SaveChangesAsync(); // Use Async
+
+                TempData["Msg"] = "New Data is updated successfully!";
+                TempData["IsErrorOccur"] = false;
+            }
+            catch (Exception e)
+            {
+                TempData["Msg"] = "There are some errors in updating the record!";
+                //check if error is occured
+                TempData["IsErrorOccur"] = true;
+            }
+            return RedirectToAction("List");
         }
         public IActionResult Delete(string id)
         {
