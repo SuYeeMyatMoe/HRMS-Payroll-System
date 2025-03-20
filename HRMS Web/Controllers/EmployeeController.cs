@@ -54,7 +54,9 @@ namespace HRMS_Web.Controllers
                     Email = employeeViewModel.Email,
                     DOB = employeeViewModel.DOB,
                     DOE = employeeViewModel.DOE,
-                    DOR = employeeViewModel.DOR,
+                    DOR = employeeViewModel.DOR ?? null, // Explicit handling of nullable DateTime
+                    //to use that syntax, it must be nullable in viewmodel (not just in entity)
+
                     Address = employeeViewModel.Address,
                     BasicSalary = employeeViewModel.BasicSalary,
                     Phone = employeeViewModel.Phone,
@@ -67,7 +69,7 @@ namespace HRMS_Web.Controllers
                     Ip = await NetworkHelper.GetIPAddress()
                 };//DTO process which is changing from viewmodel to entity(datamodel)
                 _dBContext.Employees.Add(employeeEntity);//add entity to dbcontext
-                _dBContext.SaveChangesAsync();//save the changes to database
+                await _dBContext.SaveChangesAsync();//save the changes to database
                 //Message to show success 
                 TempData["Msg"] = "New Employee is saved successfully!";
                 //check if error is occured
@@ -84,22 +86,30 @@ namespace HRMS_Web.Controllers
         }
         public IActionResult List()
         {
-            IList<EmployeeViewModel> employeeViews = _dBContext.Employees
-        .Where(w => w.IsActive)//same with  == true
-        .OrderBy(o => o.CreatedAt)
-        .Select(s => new EmployeeViewModel
-        {
-            Id = s.Id,
-            Code = s.Code,
-            Name = s.Name,
-            Email = s.Email,
-            Gender=s.Gender,
-            DOB = s.DOB,
-            BasicSalary = s.BasicSalary
-        })
-        .ToList(); // LINQ query with PositionViewModel as the result object
+            IList<EmployeeViewModel> employeeViews = (from e in _dBContext.Employees
+                                                      join p in _dBContext.Positions
+                                                      on e.PositionID equals p.Id
+                                                      join d in _dBContext.Departments
+                                                      on e.DepartmentID equals d.Id
+                                                      where e.IsActive && d.IsActive && p.IsActive
+                                                      orderby e.CreatedAt ascending
+                                                      select new EmployeeViewModel{
+                                                          Id=e.Id,
+                                                          Code=e.Code,
+                                                          Name=e.Name,
+                                                          Email=e.Email,
+                                                          Gender=e.Gender,
+                                                          DOB=e.DOB,
+                                                          DOE=e.DOE,
+                                                          DOR=e.DOR.Value,//value is used to get the value of nullable datetime
+                                                          Address=e.Address,
+                                                          BasicSalary=e.BasicSalary,
+                                                          Phone=e.Phone,
+                                                          DepartmentInfo=d.Description,
+                                                          PositionInfo=p.Description
+                                                      }).ToList();
 
-            return View(employeeViews);// this will return the list of positions (without adding positionViews will return null in Model of view page)
+            return View(employeeViews);// this will return the list of employee (without adding employeeViews will return null in Model of view page)
         }
     }
     }
