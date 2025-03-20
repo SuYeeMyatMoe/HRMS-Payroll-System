@@ -11,7 +11,7 @@
     <div class="container mt-5">
         <div class="card shadow-lg p-4">
             <h3 class="text-center mb-4">Employee Entry Form</h3>
-            <form action="/employee/entry" method="post">
+                <form action="/employee/entry" method="post">
                 <div class="row g-3">
                     <div class="col-md-6">
                         <label for="Code" class="form-label">Code</label>
@@ -30,15 +30,15 @@
                         <label for="Gender" class="form-label">Gender</label>
                         <div class="d-flex gap-3">
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="Gender" value="m" id="genderMale" checked>
+                                <input class="form-check-input" type="radio" name="Gender" value="m" id="genderMale" @(Model.Gender == 'm' ? "checked" : "null")>
                                 <label class="form-check-label" for="genderMale">Male</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="Gender" value="f" id="genderFemale">
+                                <input class="form-check-input" type="radio" name="Gender" value="f" id="genderFemale" @(Model.Gender == 'f' ? "checked" : "null")>
                                 <label class="form-check-label" for="genderFemale">Female</label>
                             </div>
                             <div class="form-check">
-                                <input class="form-check-input" type="radio" name="Gender" value="o" id="genderOther">
+                                <input class="form-check-input" type="radio" name="Gender" value="o" id="genderOther" @(Model.Gender == 'm' ? "checked" : "null")>
                                 <label class="form-check-label" for="genderOther">Other</label>
                             </div>
                         </div>
@@ -49,7 +49,14 @@
                             <option selected>Select Department</option>
                             @foreach (var department in Model.DepartmentViewModels)
                             {
-                                <option value="@department.Id">@department.Code</option>
+                                @if (department.Id == @Model.DepartmentID)
+                                {
+                                    <option value="@department.Id" selected>@department.Code</option>
+                                }
+                                else
+                                {
+                                    <option value="@department.Id">@department.Code</option>
+                                }
                             }
                         </select>
                     </div>
@@ -59,7 +66,14 @@
                             <option selected>Select Position</option>
                             @foreach (var position in Model.PositionViewModels)
                             {
-                                <option value="@position.Id">@position.Name</option>
+                                @if (position.Id == Model.PositionID)
+                                {
+                                    <option value="@position.Id" selected>@position.Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@position.Id">@position.Name</option>
+                                }
                             }
                         </select>
                     </div>
@@ -69,16 +83,17 @@
                     </div>
                     <div class="col-md-6">
                         <label for="DOB" class="form-label">Date of Birth</label>
-                        <input type="date" class="form-control" name="DOB" id="txtDOB" required max="@DateTime.Now.ToString("yyyy-MM-dd")">
-                        <!--max wil cotrol user to not be able to choose beyond current time-->
+                        <input type="date" class="form-control" name="DOB" value="@Model.DOB.ToString("yyyy-MM-dd")" id="txtDOB" required max="@DateTime.Now.ToString("yyyy-MM-dd")">
+                        <!--max wil control user to not be able to choose beyond current time-->
+
                     </div>
                     <div class="col-md-6">
                         <label for="DOE" class="form-label">Date of Employment</label>
-                        <input type="date" class="form-control" name="DOE" id="txtDOE" required>
+                        <input type="date" class="form-control" name="DOE" value="@Model.DOE.ToString("yyyy-MM-dd")" id="txtDOE" required>
                     </div>
                     <div class="col-md-6">
                         <label for="DOR" class="form-label">Date of Retirement</label>
-                        <input type="date" class="form-control" name="DOR" id="txtDOR">
+                        <input type="date" class="form-control" name="DOR" value="@(Model.DOR.HasValue ? Model.DOR.Value.ToString("yyyy-MM-dd") : "N/A")" id="txtDOR">
                     </div>
                     <div class="col-md-6">
                         <label for="Phone" class="form-label">Phone</label>
@@ -93,7 +108,7 @@
                     <button type="submit" class="btn btn-success" id="btnEntry" disabled>Submit</button>
                     <button type="reset" class="btn btn-secondary">Cancel</button>
                 </div>
-            </form>
+                </form>               
         </div>
     </div>
 
