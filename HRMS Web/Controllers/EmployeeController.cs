@@ -13,7 +13,7 @@ namespace HRMS_Web.Controllers
 
         public EmployeeController(HRMSWebDBContext dBContext)
         {
-            this._dBContext = dBContext;
+            _dBContext = dBContext;
         }
 
         [HttpGet]
@@ -110,6 +110,49 @@ namespace HRMS_Web.Controllers
                                                       }).ToList();
 
             return View(employeeViews);// this will return the list of employee (without adding employeeViews will return null in Model of view page)
+        }
+
+        public IActionResult Edit(string id)
+        {
+            EmployeeViewModel employeeView=_dBContext.Employees.Where(e=>e.IsActive && e.Id==id).Select(e=>new EmployeeViewModel
+            {
+                Id = e.Id,
+                Code = e.Code,
+                Name = e.Name,
+                Email = e.Email,
+                Gender = e.Gender,
+                DOB = e.DOB,
+                DOE = e.DOE,
+                DOR = e.DOR.Value,//value is used to get the value of nullable datetime
+                Address = e.Address,
+                BasicSalary = e.BasicSalary,
+                Phone = e.Phone,
+                DepartmentID = e.DepartmentID,
+                PositionID = e.PositionID
+            }).FirstOrDefault();
+           return View();
+        }
+        public IActionResult Delete(string id)
+        {
+            try
+            {
+                EmployeeEntity employeeEntity = _dBContext.Employees.Where(e => e.IsActive && e.Id == id).FirstOrDefault();
+                if (employeeEntity is not null)//if it is exist
+                {
+                    employeeEntity.IsActive = false;
+                    _dBContext.Employees.Update(employeeEntity);//update the record in the context
+                    _dBContext.SaveChanges();
+                    TempData["Msg"] = "Data has been deleted successfully";
+                    TempData["IsErrorOccur"] = false;
+                }
+            }
+            catch (Exception e)
+            {
+                TempData["Msg"] = "There is some issue in deleting record";
+                TempData["IsErrorOccur"] = true;
+
+            }
+            return RedirectToAction("List");
         }
     }
     }
