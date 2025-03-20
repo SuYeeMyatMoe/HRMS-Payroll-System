@@ -1,1 +1,110 @@
-﻿Hi
+﻿@model EmployeeViewModel
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Entry</title>
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+</head>
+<body>
+    <div class="container mt-5">
+        <div class="card shadow-lg p-4">
+            <h3 class="text-center mb-4">Employee Entry Form</h3>
+            <form action="/employee/entry" method="post">
+                <div class="row g-3">
+                    <div class="col-md-6">
+                        <label for="Code" class="form-label">Code</label>
+                        <input type="text" class="form-control" name="Code" id="txtCode" placeholder="Employee Code" value="@Model.Code" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Name" class="form-label">Name</label>
+                        <input type="text" class="form-control" name="Name" id="txtName" placeholder="Employee Name" required value="@Model.Name">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Email" class="form-label">Email</label>
+                        <input type="text" class="form-control" name="Email" id="txtEmail" placeholder="type employee email in here" required value="@Model.Email">
+                    </div>
+
+                    <div class="col-md-6">
+                        <label for="Gender" class="form-label">Gender</label>
+                        <div class="d-flex gap-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="Gender" value="m" id="genderMale" checked>
+                                <label class="form-check-label" for="genderMale">Male</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="Gender" value="f" id="genderFemale">
+                                <label class="form-check-label" for="genderFemale">Female</label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="Gender" value="o" id="genderOther">
+                                <label class="form-check-label" for="genderOther">Other</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Department" class="form-label">Department</label>
+                        <select class="form-select" name="DepartmentID">
+                            <option selected>Select Department</option>
+                            @foreach (var department in Model.DepartmentViewModels)
+                            {
+                                <option value="@department.Id">@department.Code</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Position" class="form-label">Position</label>
+                        <select class="form-select" name="PositionID">
+                            <option selected>Select Position</option>
+                            @foreach (var position in Model.PositionViewModels)
+                            {
+                                <option value="@position.Id">@position.Name</option>
+                            }
+                        </select>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="BasicSalary" class="form-label">Basic Salary ($)</label>
+                        <input type="number" class="form-control" name="BasicSalary" id="txtBasicSalary" placeholder="Basic Salary" required value="@Model.BasicSalary">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="DOB" class="form-label">Date of Birth</label>
+                        <input type="date" class="form-control" name="DOB" id="txtDOB" required max="@DateTime.Now.ToString("yyyy-MM-dd")">
+                        <!--max wil cotrol user to not be able to choose beyond current time-->
+                    </div>
+                    <div class="col-md-6">
+                        <label for="DOE" class="form-label">Date of Employment</label>
+                        <input type="date" class="form-control" name="DOE" id="txtDOE" required>
+                    </div>
+                    <div class="col-md-6">
+                        <label for="DOR" class="form-label">Date of Retirement</label>
+                        <input type="date" class="form-control" name="DOR" id="txtDOR">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Phone" class="form-label">Phone</label>
+                        <input type="text" class="form-control" name="Phone" placeholder="Phone Number" required value="@Model.Phone">
+                    </div>
+                    <div class="col-md-6">
+                        <label for="Address" class="form-label">Address</label>
+                        <input type="text" class="form-control" name="Address" placeholder="Address" required value="@Model.Address">
+                    </div>
+                </div>
+                <div class="text-center mt-4">
+                    <button type="submit" class="btn btn-success" id="btnEntry" disabled>Submit</button>
+                    <button type="reset" class="btn btn-secondary">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function () {
+            $('#btnEntry').prop('disabled', true);
+            function toggleEntryButton() {
+                $('#btnEntry').prop('disabled', !($('#txtName').val().length > 0 && $('#txtCode').val().length > 0));
+            }
+            $('#txtName, #txtCode').on('keyup', toggleEntryButton);
+        });
+    </script>
+</body>
+</html>
