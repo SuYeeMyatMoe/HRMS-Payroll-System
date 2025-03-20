@@ -130,7 +130,9 @@ namespace HRMS_Web.Controllers
                 DepartmentID = e.DepartmentID,
                 PositionID = e.PositionID
             }).FirstOrDefault();
-           return View();
+            employeeView.DepartmentViewModels = GetAllDepartments();
+            employeeView.PositionViewModels = GetAllPositions();
+           return View(employeeView);
         }
         public IActionResult Delete(string id)
         {
@@ -153,6 +155,25 @@ namespace HRMS_Web.Controllers
 
             }
             return RedirectToAction("List");
+        }
+        private IList<DepartmentViewModel> GetAllDepartments()
+        {
+            return _dBContext.Departments.Where(w => w.IsActive).Select(s => new DepartmentViewModel
+            {
+                Id = s.Id,
+                Code = s.Code,
+                Description = s.Description
+            }).ToList();
+        }
+
+        private IList<PositionViewModel> GetAllPositions()
+        {
+            return _dBContext.Positions.Where(w => w.IsActive).Select(s => new PositionViewModel
+            {
+                Id = s.Id,
+                Name = s.Name,
+                Description = s.Description
+            }).ToList();
         }
     }
     }
