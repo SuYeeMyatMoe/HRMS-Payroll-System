@@ -25,7 +25,7 @@
         <thead>
             <tr>
                 <th>ID</th>
-                <th>Code</th>
+                <th>Your Code</th>
                 <th>Name</th>
                 <th>Email</th>
                 <th>Department</th>
@@ -34,6 +34,7 @@
                 <th>Basic Salary</th>
                 <th>Date of Birth</th>
                 <th>Date of Employed</th>
+                <th>Date of Retirement</th>
                 <th>Actions</th>
             </tr>
         </thead>
@@ -51,6 +52,7 @@
                     <td>@employee.BasicSalary</td>
                     <td>@employee.DOB.ToString("yyyy-MM-dd")</td>
                     <td>@employee.DOE.ToString("yyyy-MM-dd")</td>
+                    <td>@(employee.DOR.HasValue ? employee.DOR.Value.ToString("yyyy-MM-dd") : "N/A")</td>
                     <td>
                         <a href="/employee/edit?id=@employee.Id" class="btn btn-success btn-sm">Edit</a>
                         <a href="/employee/delete?id=@employee.Id" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete this record?')">Delete</a>
