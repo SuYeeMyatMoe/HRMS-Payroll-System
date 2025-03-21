@@ -25,23 +25,9 @@ namespace HRMS_Web.Controllers
         {
             EmployeeViewModel employeeViewModel = new EmployeeViewModel()//create object of EmployeeViewModel
             {
-                DepartmentViewModels = _dBContext.Departments
-                .Where(w => w.IsActive)
-                .Select(s => new DepartmentViewModel
-                {
-                    Id = s.Id,
-                    Code = s.Code,
-                    Description = s.Description
-                }).ToList(),
+                DepartmentViewModels = GetAllDepartments(),
 
-                PositionViewModels = _dBContext.Positions
-                .Where(w => w.IsActive)
-                .Select(s => new PositionViewModel
-                {
-                    Id = s.Id,
-                    Name = s.Name,
-                    Description = s.Description
-                }).ToList()
+                PositionViewModels = GetAllPositions()
             };
             return View(employeeViewModel);
         }
@@ -75,13 +61,13 @@ namespace HRMS_Web.Controllers
                 _dBContext.Employees.Add(employeeEntity);//add entity to dbcontext
                 await _dBContext.SaveChangesAsync();//save the changes to database
                 //Message to show success 
-                TempData["Msg"] = "New Employee is saved successfully!";
+                TempData["Msg"] = "New Employee is added successfully!";
                 //check if error is occured
                 TempData["IsErrorOccur"] = false;
             }
             catch (Exception e)
             {
-                TempData["Msg"] = "There are some errors in saving the record!";
+                TempData["Msg"] = "There are some errors in storing the record!";
                 //check if error is occured
                 TempData["IsErrorOccur"] = true;
 
@@ -208,6 +194,7 @@ namespace HRMS_Web.Controllers
             }
             return RedirectToAction("List");
         }
+
         private IList<DepartmentViewModel> GetAllDepartments()
         {
             return _dBContext.Departments.Where(w => w.IsActive).Select(s => new DepartmentViewModel
