@@ -2,53 +2,186 @@
     ViewData["Title"] = "HR Payroll System";
 }
 
-<div class="container mt-5">
-    <div class="text-center">
-        <h1 class="display-4 text-primary fw-bold">Welcome to HR Payroll System</h1>
-        <p class="lead text-muted">Automate Attendance, Payroll, and Employee Management</p>
+<style>
+    .feature-card {
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        border: none;
+        border-radius: 15px;
+        overflow: hidden;
+    }
+
+        .feature-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.12);
+        }
+
+    .nav-card {
+        background: linear-gradient(135deg, #ffffff 0%, #f8f9fa 100%);
+        border: none;
+        transition: all 0.3s ease;
+    }
+
+        .nav-card:hover {
+            background: linear-gradient(135deg, #f8f9fa 0%, #ffffff 100%);
+        }
+
+    .hero-section {
+        background: linear-gradient(135deg, #6366f1 0%, #4f46e5 100%);
+        border-radius: 20px;
+        padding: 4rem 2rem;
+        margin-top:2rem;
+        margin-bottom: 4rem;
+    }
+
+    .bounce {
+        animation: bounce 2s infinite;
+    }
+
+    @@keyframes bounce {
+        0%, 20%, 50%, 80%, 100% {
+            transform: translateY(0);
+        }
+
+        40% {
+            transform: translateY(-30px);
+        }
+
+        60% {
+            transform: translateY(-15px);
+        }
+    }
+</style>
+
+<div class="container-fluid px-5">
+    <!-- Hero Section -->
+    <div class="hero-section text-center text-white">
+        <h1 class="display-3 fw-bold mb-4 animate__animated animate__fadeInDown">
+            <span class="bounce">👋</span> Welcome to HRMS Web
+        </h1>
+        <p class="lead fs-4 mb-4 opacity-75">Smart Workforce Management Platform</p>
+        <div class="d-flex gap-3 justify-content-center">
+            <a href="/employee/entry" class="btn btn-light btn-lg px-5 rounded-pill">
+                Add New Employee <i class="bi bi-person-plus ms-2"></i>
+            </a>
+            <a href="/employee/list" class="btn btn-outline-light btn-lg px-5 rounded-pill">
+                View Employees <i class="bi bi-people ms-2"></i>
+            </a>
+        </div>
     </div>
 
-    <!-- Features Section -->
-    <div class="row mt-4">
-        <div class="col-md-6">
-            <img src="~/images/hr-payroll.jpg" class="img-fluid rounded shadow" alt="HR Payroll System">
+    <!-- Features Grid -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-4">
+            <div class="feature-card card h-100 p-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-primary p-3 rounded-circle me-3">
+                            <i class="bi bi-clock fs-2 text-white"></i>
+                        </div>
+                        <h3 class="mb-0">Smart Attendance</h3>
+                    </div>
+                    <p class="text-muted">Real-time tracking with facial recognition integration and shift management.</p>
+                </div>
+            </div>
         </div>
-        <div class="col-md-6 d-flex align-items-center">
-            <div>
-                <h3 class="text-dark">Key Features</h3>
-                <ul class="list-group list-group-flush">
-                    <li class="list-group-item"><i class="bi bi-clock text-success"></i> Daily Attendance Tracking</li>
-                    <li class="list-group-item"><i class="bi bi-calendar text-success"></i> Shift Attendance & Scheduling</li>
-                    <li class="list-group-item"><i class="bi bi-people text-success"></i> Employee Records Management</li>
-                    <li class="list-group-item"><i class="bi bi-bar-chart text-success"></i> Admin Reports & Insights</li>
-                    <li class="list-group-item"><i class="bi bi-cash text-success"></i> Automated Payroll Processing</li>
-                </ul>
+
+        <div class="col-md-4">
+            <div class="feature-card card h-100 p-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-success p-3 rounded-circle me-3">
+                            <i class="bi bi-cash-coin fs-2 text-white"></i>
+                        </div>
+                        <h3 class="mb-0">Auto Payroll</h3>
+                    </div>
+                    <p class="text-muted">Automated salary processing with tax compliance and digital payslips.</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-4">
+            <div class="feature-card card h-100 p-4">
+                <div class="card-body">
+                    <div class="d-flex align-items-center mb-4">
+                        <div class="bg-info p-3 rounded-circle me-3">
+                            <i class="bi bi-graph-up fs-2 text-white"></i>
+                        </div>
+                        <h3 class="mb-0">Live Analytics</h3>
+                    </div>
+                    <p class="text-muted">Interactive dashboards with workforce insights and predictive analytics.</p>
+                </div>
             </div>
         </div>
     </div>
 
-    <!-- Navigation Buttons -->
-    <div class="row text-center mt-5">
-        <div class="col-md-4">
-            <a href="/#" class="btn btn-primary w-100 py-3 shadow">Daily Attendance</a>
+    <!-- Quick Actions -->
+    <div class="row g-4">
+        <div class="col-md-3">
+            <a href="#" class="card nav-card text-decoration-none text-dark h-100">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-calendar-check fs-1 text-primary mb-3"></i>
+                    <h5>Daily Attendance</h5>
+                    <small class="text-muted">Mark and manage daily records</small>
+                </div>
+            </a>
         </div>
-        <div class="col-md-4">
-            <a href="/#" class="btn btn-success w-100 py-3 shadow">Shift Attendance</a>
+
+        <div class="col-md-3">
+            <a href="#" class="card nav-card text-decoration-none text-dark h-100">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-clock-history fs-1 text-success mb-3"></i>
+                    <h5>Shift Management</h5>
+                    <small class="text-muted">Create and assign work shifts</small>
+                </div>
+            </a>
         </div>
-        <div class="col-md-4">
-            <a href="/#" class="btn btn-info w-100 py-3 shadow">Manage Shifts</a>
+
+        <div class="col-md-3">
+            <a href="#" class="card nav-card text-decoration-none text-dark h-100">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-file-earmark-bar-graph fs-1 text-warning mb-3"></i>
+                    <h5>Reports</h5>
+                    <small class="text-muted">Generate detailed analytics</small>
+                </div>
+            </a>
+        </div>
+
+        <div class="col-md-3">
+            <a href="#" class="card nav-card text-decoration-none text-dark h-100">
+                <div class="card-body text-center p-4">
+                    <i class="bi bi-gear fs-1 text-danger mb-3"></i>
+                    <h5>Settings</h5>
+                    <small class="text-muted">Configure system parameters</small>
+                </div>
+            </a>
         </div>
     </div>
 
-    <div class="row text-center mt-4">
-        <div class="col-md-4">
-            <a href="/#" class="btn btn-warning w-100 py-3 shadow">Admin Reports</a>
-        </div>
-        <div class="col-md-4">
-            <a href="/#" class="btn btn-dark w-100 py-3 shadow">Generate Payroll</a>
-        </div>
-        <div class="col-md-4">
-            <a href="/#" class="btn btn-secondary w-100 py-3 shadow">Employee Records</a>
+    <!-- Stats Banner -->
+    <div class="row mt-5">
+        <div class="col-12">
+            <div class="card bg-dark text-white overflow-hidden">
+                <div class="card-body p-4">
+                    <div class="row text-center">
+                        <div class="col-md-3 border-end">
+                            <h2 class="fw-bold">1.2k+</h2>
+                            <small>Active Employees</small>
+                        </div>
+                        <div class="col-md-3 border-end">
+                            <h2 class="fw-bold">98%</h2>
+                            <small>Attendance Accuracy</small>
+                        </div>
+                        <div class="col-md-3 border-end">
+                            <h2 class="fw-bold">$5.2M</h2>
+                            <small>Monthly Payroll</small>
+                        </div>
+                        <div class="col-md-3">
+                            <h2 class="fw-bold">24/7</h2>
+                            <small>Support Availability</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
