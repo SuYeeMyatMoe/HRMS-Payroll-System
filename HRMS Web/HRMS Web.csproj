@@ -20,6 +20,13 @@
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
   </ItemGroup>
+
+	
+  <ItemGroup>
+    <Folder Include="Repositories\Domain\" />
+    <Folder Include="UnitOfWork\" />
+    <Folder Include="Services\" />
+  </ItemGroup>
 	
 
 </Project>
