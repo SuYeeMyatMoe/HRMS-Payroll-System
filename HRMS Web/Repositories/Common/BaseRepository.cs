@@ -1,10 +1,17 @@
-﻿using System.Linq.Expressions;
+﻿using HRMS_Web.DAO;
+using System.Linq.Expressions;
 
 namespace HRMS_Web.Repositories.Common
 {
     //To partially implement IBaseRepository interface in this abstract class
     public class BaseRepository<T> : IBaseRepository<T> where T : class
     {
+        private readonly HRMSWebDBContext _dBContext;
+
+        public BaseRepository(HRMSWebDBContext dBContext)
+        {          
+            this._dBContext = dBContext;
+        }
         public void Create(T entity)
         {
             throw new NotImplementedException();

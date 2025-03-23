@@ -1,65 +1,50 @@
-﻿@model IList<EmployeeViewModel>
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Employee List</title>
+﻿@model IList<DepartmentViewModel>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
 
-    <!-- jQuery CDN Link -->
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-</head>
-<body>
-    <h1>Employee List Information</h1>
+<h1>Department List Information</h1>
+@if (TempData["Msg"] != null && !(Convert.ToBoolean(TempData["IsErrorOccur"])))
+{
+    <div class="alert alert-success" role="alert">
+        <span>@TempData["Msg"]</span>
+    </div>
+}
+else @if (TempData["Msg"] != null && (Convert.ToBoolean(TempData["IsErrorOccur"])))
+{
+    <div class="alert alert-danger" role="alert">
+        <span>@TempData["Msg"]</span>
+    </div>
+}
 
-    @if (TempData["Msg"] != null)
-    {
-        <div class="alert @(Convert.ToBoolean(TempData["IsErrorOccur"]) ? "alert-danger" : "alert-success")" role="alert">
-            <span>@TempData["Msg"]</span>
-        </div>
-    }
-
-    <table class="table" id="EmployeeTable">
-        <thead>
+<table class="table" id="DeptTable">
+    <thead>
+        <tr>
+            <th scope="col">#</th>
+            <th scope="col">Code</th>
+            <th scope="col">Description</th>
+            <th scope="col">Extension Phone</th>
+            <th scope="col">Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
             <tr>
-                <th scope="col">ID</th>
-                <th scope="col">Code</th>
-                <th scope="col">Name</th>
-                <th scope="col">Email</th>
-                <th scope="col">Department</th>
-                <th scope="col">Position</th>
-                <th scope="col">Gender</th>
-                <th scope="col">Basic Salary</th>
-                <th scope="col">Date of Birth</th>
-                <th scope="col">Date of Employed</th>
-                <th scope="col">Actions</th>
+                <th scope="row">@(Model.IndexOf(item) + 1)</th>
+                <td>@item.Code</td>
+                <td>@item.Description</td>
+                <td>@item.ExtensionPhone</td>
+                <td>
+                    <a href="/department/edit?id=@item.Id" class="btn btn-success" role="button">Edit</a>
+                    <a href="/department/delete?id=@item.Id" class="btn btn-danger" role="button" onclick="return confirm('Are you sure to delete this record?')">Delete</a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-            @foreach (var employee in Model)
-            {
-                <tr>
-                    <td>@(Model.IndexOf(employee) + 1)</td>
-                    <td>@employee.Code</td>
-                    <td>@employee.Name</td>
-                    <td>@employee.Email</td>
-                    <td>@employee.DepartmentInfo</td>
-                    <td>@employee.PositionInfo</td>
-                    <td>@(employee.Gender == 'm' ? "Male" : employee.Gender == 'f' ? "Female" : "Other")</td>
-                    <td>@employee.BasicSalary</td>
-                    <td>@employee.DOB</td>
-                    <td>@employee.DOE</td>
-                    <td>
-                        <a href="/employee/edit?id=@employee.Id" class="btn btn-success btn-sm">Edit</a>
-                        <a href="/employee/delete?id=@employee.Id" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete this record?')">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
-    <script>
-        //Applying data table in this list
-        $(document).ready(function () {
-            $('#EmployeeTable').DataTable();
-        });
-    </script>
-</body>
-</html>
+        }
+    </tbody>
+</table>
+
+<script>
+    $(document).ready(function () {
+        $('#DeptTable').DataTable();
+    });
+</script>
+
