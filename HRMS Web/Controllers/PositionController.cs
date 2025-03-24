@@ -85,27 +85,7 @@ namespace HRMS_Web.Controllers
         // /position/delete?id=@item.Id
         public IActionResult Delete(string id)//for primary key
         {
-            try
-            {
-                PositionEntity positionEntity = _dbcontext.Positions.Where(w => w.Id == id).FirstOrDefault();//retrive the selected record from database
-                if (positionEntity != null)
-                {
-                    positionEntity.IsActive = false;
-                    _dbcontext.Positions.Update(positionEntity);//update the record in the context
-                    _dbcontext.SaveChanges();//saving the data in database
-                    //Message to show success 
-                    TempData["Msg"] = "This Position is deleted successfully!";
-                    //check if error is occured
-                    TempData["IsErrorOccur"] = false;
-                }
-            }
-            catch (Exception)
-            {
-                TempData["Msg"] = "There are some errors in deleting the record!";
-                //check if error is occured
-                TempData["IsErrorOccur"] = true;
-                
-            }
+            
             return RedirectToAction("List");
         }
     }

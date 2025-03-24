@@ -46,9 +46,23 @@ namespace HRMS_Web.Services
             
         }
 
-        public void Delete(PositionViewModel viewModel)
+        public void Delete(string id)
         {
-            throw new NotImplementedException();
+            try
+            {
+                PositionEntity positionEntity = _unitofwork.PositionRepository.GetAll(w => w.Id == id).FirstOrDefault();//retrive the selected record from database
+                if (positionEntity != null)
+                {
+                    positionEntity.IsActive = false;
+                    _unitofwork.PositionRepository.Delete(positionEntity);
+                    _unitofwork.Commit();
+                }
+            }
+            catch (Exception)
+            {
+                _unitofwork.Rollback();
+                
+            }
         }
 
         public IEnumerable<PositionViewModel> GetAll()
