@@ -13,7 +13,9 @@ var connectionString = builder.Configuration.GetConnectionString("HRMSDB_Connect
 builder.Services.AddDbContext<HRMSWebDBContext>(options => options.UseSqlServer(connectionString));
 //and pass the connection string to the DbContext(options is a variable)
 
-builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();//registering Unit Of Work dependency injection
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+//registering Unit Of Work dependency injection(cannot use with AddSingleton must use with AddScoped) 
+
 builder.Services.AddTransient<IPositionService, PositionService>();//registering PositionService dependency injection
 //builder.Services.AddTransient<IDepartmentService, DepartmentService>();
 
