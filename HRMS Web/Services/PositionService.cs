@@ -19,7 +19,7 @@ namespace HRMS_Web.Services
         }
 
         //create
-        public async Task Create(PositionViewModel viewModel)
+        public async void Create(PositionViewModel viewModel)
         {
             try
             {
@@ -101,9 +101,27 @@ namespace HRMS_Web.Services
         }
 
         //update
-        public void Update(PositionViewModel viewModel)
+        public async void Update(PositionViewModel viewModel)
         {
-            throw new NotImplementedException();
+            try
+            {
+                PositionEntity currentPosition = _unitofwork.PositionRepository.GetAll(w => w.IsActive && w.Id == positionVM.Id).FirstOrDefault();//retrieve selected data
+                if (currentPosition is not null)
+                {
+                    currentPosition.Name = viewModel.Name;
+                    currentPosition.Description = viewModel.Description;
+                    currentPosition.Level = viewModel.Level;
+                    currentPosition.UpdatedAt = DateTime.Now;
+                    currentPosition.UpdatedBy = "admin";
+                    currentPosition.Ip = await NetworkHelper.GetIPAddress();
+                    _unitofwork.PositionRepository.Update(currentPosition);
+                    _unitofwork.Commit();                 
+                }
+            }
+            catch (Exception e)
+            {
+                _unitofwork.Rollback();
+            }
         }
     }
 }
