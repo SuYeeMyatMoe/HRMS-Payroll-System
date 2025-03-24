@@ -105,7 +105,7 @@ namespace HRMS_Web.Services
         {
             try
             {
-                PositionEntity currentPosition = _unitofwork.PositionRepository.GetAll(w => w.IsActive && w.Id == positionVM.Id).FirstOrDefault();//retrieve selected data
+                PositionEntity currentPosition = _unitofwork.PositionRepository.GetAll(w => w.IsActive && w.Id == viewModel.Id).FirstOrDefault();//retrieve selected data
                 if (currentPosition is not null)
                 {
                     currentPosition.Name = viewModel.Name;

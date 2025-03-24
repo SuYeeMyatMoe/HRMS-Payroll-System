@@ -11,13 +11,15 @@ namespace HRMS_Web.Services
 
         //read
         IEnumerable<PositionViewModel> GetAll();
-        PositionViewModel GetById(int id);
+
+        //edit
+        PositionViewModel GetById(string id);
 
         //update
         void Update(PositionViewModel viewModel);
 
         //delete
-        void Delete(PositionViewModel viewModel);
+        void Delete(string id);
 
     }
 }
