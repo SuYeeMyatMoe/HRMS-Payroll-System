@@ -23,24 +23,13 @@ namespace HRMS_Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Entry(PositionViewModel position_model)
         {
-            
+            return RedirectToAction("List");
         }
 
         //To show success result
         public IActionResult List()
         {
-            IList<PositionViewModel> positionViews = _dbcontext.Positions
-       .Where(w => w.IsActive==true)
-       .OrderBy(o => o.CreatedAt)
-       .Select(s => new PositionViewModel
-       {
-           Id = s.Id,
-           Name = s.Name,
-           Description = s.Description,
-           Level = s.Level ?? 0 // Avoids null reference issue
-           
-       })
-       .ToList(); // LINQ query with PositionViewModel as the result object
+            
 
             return View(positionViews);// this will return the list of positions (without adding positionViews will return null in Model of view page)
         }

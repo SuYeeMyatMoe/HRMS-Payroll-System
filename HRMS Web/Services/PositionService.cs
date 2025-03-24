@@ -43,7 +43,7 @@ namespace HRMS_Web.Services
                 _unitofwork.Rollback();
 
             }
-            //return RedirectToAction("List");
+            
         }
 
         public void Delete(PositionViewModel viewModel)
@@ -53,7 +53,18 @@ namespace HRMS_Web.Services
 
         public IEnumerable<PositionViewModel> GetAll()
         {
-            throw new NotImplementedException();
+            return _unitofwork.PositionRepository.GetAll
+        (w => w.IsActive == true)
+       .OrderBy(o => o.CreatedAt)
+       .Select(s => new PositionViewModel
+       {
+           Id = s.Id,
+           Name = s.Name,
+           Description = s.Description,
+           Level = s.Level ?? 0 // Avoids null reference issue
+
+       })
+       .ToList(); // LINQ query with PositionViewModel as the result object
         }
 
         public PositionViewModel GetById(int id)
