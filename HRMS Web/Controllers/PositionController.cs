@@ -36,15 +36,7 @@ namespace HRMS_Web.Controllers
 
         public IActionResult Edit(string id)
         {
-            PositionViewModel positionView = _dbcontext.Positions//similar to list 
-                .Where(w=>w.IsActive && w.Id == id)
-                .Select(s=>new PositionViewModel
-            { 
-                Id = s.Id,
-                Name = s.Name,
-                Description = s.Description,
-                Level = s.Level ?? 0
-            }).FirstOrDefault();
+            
             return View(positionView);
 
         }

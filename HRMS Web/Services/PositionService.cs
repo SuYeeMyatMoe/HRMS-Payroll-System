@@ -17,6 +17,8 @@ namespace HRMS_Web.Services
         {
             this._unitofwork = unitofwork;
         }
+
+        //create
         public async Task Create(PositionViewModel viewModel)
         {
             try
@@ -46,6 +48,7 @@ namespace HRMS_Web.Services
             
         }
 
+        //delete
         public void Delete(string id)
         {
             try
@@ -65,6 +68,7 @@ namespace HRMS_Web.Services
             }
         }
 
+        //Retrieve all (for list) 
         public IEnumerable<PositionViewModel> GetAll()
         {
             return _unitofwork.PositionRepository.GetAll
@@ -81,11 +85,22 @@ namespace HRMS_Web.Services
        .ToList(); // LINQ query with PositionViewModel as the result object
         }
 
-        public PositionViewModel GetById(int id)
+        //Retrieve by id (for edit)
+        public PositionViewModel GetById(string id)
         {
-            throw new NotImplementedException();
+            return _unitofwork.PositionRepository//similar to list 
+                .GetAll(w => w.IsActive && w.Id == id)
+                .Select(s => new PositionViewModel
+                {
+                    Id = s.Id,
+                    Name = s.Name,
+                    Description = s.Description,
+                    Level = s.Level ?? 0
+                }).FirstOrDefault();
+            
         }
 
+        //update
         public void Update(PositionViewModel viewModel)
         {
             throw new NotImplementedException();
