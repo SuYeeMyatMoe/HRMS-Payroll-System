@@ -15,6 +15,9 @@ builder.Services.AddDbContext<HRMSWebDBContext>(options => options.UseSqlServer(
 
 builder.Services.AddSingleton<IUnitOfWork, UnitOfWork>();//registering Unit Of Work dependency injection
 builder.Services.AddTransient<IPositionService, PositionService>();//registering PositionService dependency injection
+//builder.Services.AddTransient<IDepartmentService, DepartmentService>();
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.

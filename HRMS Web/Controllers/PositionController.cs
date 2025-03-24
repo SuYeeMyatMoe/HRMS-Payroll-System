@@ -1,6 +1,7 @@
 ﻿using HRMS_Web.DAO;
 using HRMS_Web.Models.DataModels;
 using HRMS_Web.Models.ViewModels;
+using HRMS_Web.Services;
 using HRMS_Web.Utilities;
 using Microsoft.AspNetCore.Mvc;
 
@@ -8,10 +9,12 @@ namespace HRMS_Web.Controllers
 {
     public class PositionController : Controller
     {
-        public readonly HRMSWebDBContext _dbcontext;//Dependency injection dbContext
-        public PositionController(HRMSWebDBContext dbContext)
+        private readonly IPositionService _positionService;
+
+        //dependency injection for position service
+        public PositionController(IPositionService positionService)
         {
-            _dbcontext = dbContext;
+            this._positionService = positionService;
         }
 
         [HttpGet]
@@ -23,7 +26,7 @@ namespace HRMS_Web.Controllers
         [HttpPost]
         public async Task<IActionResult> Entry(PositionViewModel position_model)
         {
-            
+            _positionService.Create(position_model);
                 //Message to show success 
                 TempData["Msg"] = "New Position is saved successfully!";
                 //check if error is occured
@@ -33,24 +36,16 @@ namespace HRMS_Web.Controllers
         }
 
         //To show success result
-        public IActionResult List()
-        {
-            
+        public IActionResult List() => View(_positionService.GetAll());// this will return the list of positions (without adding positionViews will return null in Model of view page)
+       
 
-            return View(positionViews);// this will return the list of positions (without adding positionViews will return null in Model of view page)
-        }
+        public IActionResult Edit(string id)=> View(_positionService.GetById(id));
 
-        public IActionResult Edit(string id)
-        {
-
-            return View(positionView);
-
-        }
 
         [HttpPost]
         public async Task<IActionResult> Update(PositionViewModel positionVM)
         {
-            
+            _positionService.Update(positionVM);
                     //Message to show success 
                     TempData["Msg"] = "This Position is updated successfully!";
                     //check if error is occured
@@ -63,7 +58,7 @@ namespace HRMS_Web.Controllers
         // /position/delete?id=@item.Id
         public IActionResult Delete(string id)//for primary key
         {
-            
+                    _positionService.Delete(id);
                     //Message to show success 
                     TempData["Msg"] = "This Position is deleted successfully!";
                     //check if error is occured
