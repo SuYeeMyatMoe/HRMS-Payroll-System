@@ -17,9 +17,12 @@ namespace HRMS_Web.Services
         {
             this._unitofwork = unitofwork;
         }
-
+        private async Task<string> GetIPAsync()
+        {
+            return await NetworkHelper.GetIPAddress();
+        }
         //create
-        public async void Create(PositionViewModel viewModel)
+        public void Create(PositionViewModel viewModel)
         {
             try
             {
@@ -33,7 +36,7 @@ namespace HRMS_Web.Services
                     CreatedAt = DateTime.Now,
                     CreatedBy = "admin",
                     IsActive = true,
-                    Ip = await NetworkHelper.GetIPAddress()
+                    Ip = GetIPAsync().GetAwaiter().GetResult()// Prevents deadlock (due to .Result)
                 };
                 //save with unit of work
                 _unitofwork.PositionRepository.Create(positionEntity);
@@ -101,7 +104,7 @@ namespace HRMS_Web.Services
         }
 
         //update
-        public async void Update(PositionViewModel viewModel)
+        public void Update(PositionViewModel viewModel)
         {
             try
             {
@@ -113,7 +116,7 @@ namespace HRMS_Web.Services
                     currentPosition.Level = viewModel.Level;
                     currentPosition.UpdatedAt = DateTime.Now;
                     currentPosition.UpdatedBy = "admin";
-                    currentPosition.Ip = await NetworkHelper.GetIPAddress();
+                    currentPosition.Ip = GetIPAsync().GetAwaiter().GetResult();// Prevents deadlock 
                     _unitofwork.PositionRepository.Update(currentPosition);
                     _unitofwork.Commit();                 
                 }

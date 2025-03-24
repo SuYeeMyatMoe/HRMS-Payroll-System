@@ -36,7 +36,7 @@ namespace HRMS_Web.Controllers
         }
 
         //To show success result
-        public IActionResult List() => View(_positionService.GetAll());// this will return the list of positions (without adding positionViews will return null in Model of view page)
+        public IActionResult List() => View(_positionService.GetAll().ToList());// change IEnumerable to IList
        
 
         public IActionResult Edit(string id)=> View(_positionService.GetById(id));
