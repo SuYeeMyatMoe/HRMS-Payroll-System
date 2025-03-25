@@ -1,9 +1,11 @@
 ﻿using HRMS_Web.Models.DataModels;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace HRMS_Web.DAO
 {
-    public class HRMSWebDBContext:DbContext
+    public class HRMSWebDBContext:IdentityDbContext<IdentityUser,IdentityRole,string>
     {
         public HRMSWebDBContext(DbContextOptions<HRMSWebDBContext> options):base(options)//constructor overloading (making two class with same name) and Dependency Injection in ASP.NET Core (Passing DbContextOptions<T>)
         {
