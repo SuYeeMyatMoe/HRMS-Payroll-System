@@ -1,69 +1,302 @@
 ﻿@model IList<EmployeeViewModel>
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>Employee List</title>
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #3498db;
+            --secondary-color: #2c3e50;
+            --success-color: #2ecc71;
+            --danger-color: #e74c3c;
+            --light-bg: #f8f9fa;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f5f7fa;
+            color: #333;
+        }
+
+        .page-header {
+            background: linear-gradient(135deg, var(--secondary-color), var(--primary-color));
+            color: white;
+            padding: 2rem 0;
+            margin-bottom: 2rem;
+            border-radius: 0 0 10px 10px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+        }
+
+        .card {
+            border: none;
+            border-radius: 10px;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            margin-bottom: 1.5rem;
+            background-color: white;
+        }
+
+        .card-header {
+            background-color: white;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+            padding: 1.25rem 1.5rem;
+        }
+
+        .table-responsive {
+            border-radius: 10px;
+            overflow: hidden;
+        }
+
+        .table {
+            width: 100%;
+            margin-bottom: 1rem;
+            color: #212529;
+            border-collapse: collapse;
+        }
+
+            .table thead th {
+                background-color: var(--secondary-color);
+                color: white;
+                border: none;
+                font-weight: 500;
+                padding: 1rem;
+                vertical-align: middle;
+            }
+
+            .table tbody tr {
+                transition: background-color 0.2s;
+            }
+
+                .table tbody tr:hover {
+                    background-color: rgba(52, 152, 219, 0.1);
+                }
+
+            .table td {
+                padding: 0.75rem;
+                vertical-align: middle;
+                border-top: 1px solid #dee2e6;
+            }
+
+        .btn-action {
+            padding: 0.25rem 0.5rem;
+            font-size: 0.875rem;
+            border-radius: 4px;
+            margin: 0 2px;
+        }
+
+        /* Gender badge styles */
+        .badge-gender {
+            padding: 0.35em 0.65em;
+            font-size: 0.75em;
+            font-weight: 500;
+            text-transform: uppercase;
+            color: white !important;
+            border-radius: 0.25rem;
+        }
+
+        .badge-male {
+            background-color: #3498db;
+        }
+
+        .badge-female {
+            background-color: #e83e8c;
+        }
+
+        .badge-other {
+            background-color: #6c757d;
+        }
+
+        .salary-cell {
+            font-family: 'Courier New', monospace;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .actions-cell {
+            white-space: nowrap;
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 5px;
+        }
+
+        /* DataTable customizations */
+        .dataTables_wrapper .dataTables_paginate .paginate_button {
+            border-radius: 4px !important;
+            margin: 0 2px;
+        }
+
+            .dataTables_wrapper .dataTables_paginate .paginate_button.current {
+                background: var(--primary-color) !important;
+                color: white !important;
+                border: none !important;
+            }
+
+        /* Scrollbar styles */
+        .dataTables_scrollBody {
+            overflow-x: auto !important;
+            overflow-y: hidden;
+            border-bottom: 1px solid #dee2e6;
+        }
+
+            .dataTables_scrollBody::-webkit-scrollbar {
+                height: 8px;
+            }
+
+            .dataTables_scrollBody::-webkit-scrollbar-track {
+                background: #f1f1f1;
+                border-radius: 4px;
+            }
+
+            .dataTables_scrollBody::-webkit-scrollbar-thumb {
+                background: #888;
+                border-radius: 4px;
+            }
+
+                .dataTables_scrollBody::-webkit-scrollbar-thumb:hover {
+                    background: #555;
+                }
+
+        /* Class to handle scroll behavior */
+        .enable-scroll-x {
+            overflow-x: auto;
+        }
+
+        .disable-scroll-x {
+            overflow-x: hidden;
+        }
+    </style>
 </head>
 <body>
-    <h1>Employee List Information</h1>
 
-    @if (TempData["Msg"] != null && !Convert.ToBoolean(TempData["IsErrorOccur"]))
-    {
-        <div class="alert alert-success" role="alert">
-            <span>@TempData["Msg"]</span>
+    <div class="card">
+        <div class="card-header bg-white">
+            <h5 class="mb-0"><i class="fas fa-list me-2"></i>Employee Records</h5>
         </div>
-    }
-    else if (TempData["Msg"] != null)
-    {
-        <div class="alert alert-danger" role="alert">
-            <span>@TempData["Msg"]</span>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-hover table-striped" id="EmployeeTable">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Code</th>
+                            <th>Name</th>
+                            <th>Email</th>
+                            <th>Department</th>
+                            <th>Position</th>
+                            <th>Gender</th>
+                            <th>Salary</th>
+                            <th>Date of Birth</th>
+                            <th>Employed</th>
+                            <th class="no-sort">Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var employee in Model)
+                        {
+                            <tr>
+                                <td>@(Model.IndexOf(employee) + 1)</td>
+                                <td><span class="badge bg-primary">@employee.Code</span></td>
+                                <td>@employee.Name</td>
+                                <td><a href="mailto:@employee.Email">@employee.Email</a></td>
+                                <td>@employee.DepartmentInfo</td>
+                                <td>@employee.PositionInfo</td>
+                                <td>
+                                    @if (employee.Gender == 'm')
+                                    {
+                                        <span class="badge badge-gender badge-male">Male</span>
+                                    }
+                                    else if (employee.Gender == 'f')
+                                    {
+                                        <span class="badge badge-gender badge-female">Female</span>
+                                    }
+                                    else
+                                    {
+                                        <span class="badge badge-gender badge-other">Other</span>
+                                    }
+                                </td>
+                                <td class="salary-cell">@employee.BasicSalary.ToString("C")</td>
+                                <td>@employee.DOB.ToString("yyyy-MM-dd")</td>
+                                <td>@employee.DOE.ToString("yyyy-MM-dd")</td>
+                                <td class="actions-cell">
+                                    <div class="btn-group" role="group">
+                                        <a href="/employee/edit?id=@employee.Id" class="btn btn-success btn-sm" title="Edit">
+                                            <i class="fas fa-edit"></i>
+                                        </a>
+                                        <a href="/employee/delete?id=@employee.Id" class="btn btn-danger btn-sm" title="Delete" onclick="return confirm('Are you sure?')">
+                                            <i class="fas fa-trash-alt"></i>
+                                        </a>
+                                    </div>
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
         </div>
-    }
+    </div>
 
-    <table class="table" id="EmployeeTable">
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Your Code</th>
-                <th>Name</th>
-                <th>Email</th>
-                <th>Department</th>
-                <th>Position</th>
-                <th>Gender</th>
-                <th>Basic Salary</th>
-                <th>Date of Birth</th>
-                <th>Date of Employed</th>
-                <th>Date of Retirement</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var employee in Model)
-            {
-                <tr>
-                    <td>@(Model.IndexOf(employee) + 1)</td>
-                    <td>@employee.Code</td>
-                    <td>@employee.Name</td>
-                    <td>@employee.Email</td>
-                    <td>@employee.DepartmentInfo</td>
-                    <td>@employee.PositionInfo</td>
-                    <td>@(employee.Gender == 'm' ? "Male" : employee.Gender == 'f' ? "Female" : "Other")</td>
-                    <td>@employee.BasicSalary</td>
-                    <td>@employee.DOB.ToString("yyyy-MM-dd")</td>
-                    <td>@employee.DOE.ToString("yyyy-MM-dd")</td>
-                    <td>@(employee.DOR.HasValue ? employee.DOR.Value.ToString("yyyy-MM-dd") : "N/A")</td><!--nullable for view-->
-                    <td>
-                        <a href="/employee/edit?id=@employee.Id" class="btn btn-success btn-sm">Edit</a>
-                        <a href="/employee/delete?id=@employee.Id" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure to delete this record?')">Delete</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    <!-- Scripts -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.datatables.net/1.13.4/js/jquery.dataTables.min.js"></script>
     <script>
         $(document).ready(function () {
-            $('#EmployeeTable').DataTable();
+            // Initialize DataTable
+            var table = $('#EmployeeTable').DataTable({
+                responsive: true,
+                scrollX: false,  // Initially disable horizontal scrolling
+                autoWidth: true,
+                columnDefs: [
+                    { targets: 'no-sort', orderable: false }
+                ],
+                language: {
+                    search: "_INPUT_",
+                    searchPlaceholder: "Search employees...",
+                    lengthMenu: "Show _MENU_ entries",
+                    info: "Showing _START_ to _END_ of _TOTAL_ entries",
+                    paginate: {
+                        first: '<i class="fas fa-angle-double-left"></i>',
+                        previous: '<i class="fas fa-angle-left"></i>',
+                        next: '<i class="fas fa-angle-right"></i>',
+                        last: '<i class="fas fa-angle-double-right"></i>'
+                    }
+                },
+                dom: '<"top"<"row"<"col-md-6"l><"col-md-6"f>>>rt<"bottom"<"row"<"col-md-6"i><"col-md-6"p>>>',
+                initComplete: function () {
+                    $('.dataTables_filter input').addClass('form-control');
+                    $('.dataTables_length select').addClass('form-select');
+                    handleScrollBehavior();
+                }
+            });
+
+            // Function to handle scroll behavior based on window size
+            function handleScrollBehavior() {
+                var wrapper = $('.dataTables_wrapper');
+                if ($(window).width() < 992) {
+                    // Enable horizontal scrolling for small screens
+                    table.settings()[0].oInit.scrollX = true;
+                    table.settings()[0].scrollX = true;
+                    wrapper.addClass('enable-scroll-x').removeClass('disable-scroll-x');
+                } else {
+                    // Disable horizontal scrolling for larger screens
+                    table.settings()[0].oInit.scrollX = false;
+                    table.settings()[0].scrollX = false;
+                    wrapper.addClass('disable-scroll-x').removeClass('enable-scroll-x');
+                }
+                table.columns.adjust().responsive.recalc();
+            }
+
+            // Initial check
+            handleScrollBehavior();
+
+            // Handle window resize
+            $(window).on('resize', function () {
+                handleScrollBehavior();
+            });
         });
     </script>
 </body>

@@ -85,11 +85,14 @@
                         </ul>
 
                         <!-- Search Bar -->
-                        <form class="d-flex" role="search" method="GET" action="/Search">
-                            <input class="form-control me-2 bg-dark text-white border-0" type="search" placeholder="Search..." aria-label="Search" name="query">
-                            <button class="btn btn-outline-light" type="submit">
-                                search
-                            </button>
+                        <form class="d-flex align-items-center" role="search" method="GET" action="/Search">
+                            <<div class="input-group">
+                                <input class="form-control bg-dark text-white border-secondary rounded-start-pill px-3"
+                                       type="search" placeholder="Search..." aria-label="Search" name="query">
+                                <button class="btn btn-secondary rounded-end-pill px-3" type="submit">
+                                    Search
+                                </button>
+                            </div>
                         </form>
                     </div>
                 </div>
