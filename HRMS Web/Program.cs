@@ -1,6 +1,7 @@
 using HRMS_Web.DAO;
 using HRMS_Web.Services;
 using HRMS_Web.UnitOfWork;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -13,6 +14,13 @@ var connectionString = builder.Configuration.GetConnectionString("HRMSDB_Connect
 builder.Services.AddDbContext<HRMSWebDBContext>(options => options.UseSqlServer(connectionString));
 //and pass the connection string to the DbContext(options is a variable)
 
+//for identity
+builder.Services.AddRazorPages();//Register for Identity UIs
+builder.Services.AddIdentity<IdentityUser, IdentityRole>().AddEntityFrameworkStores<HRMSWebDBContext>();//Register for identity dbcontext for identity users and roles
+
+
+
+// for repository pattern
 builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();//registering Unit Of Work dependency injection
 //cannot use with AddSingleton must use with AddScoped since it is request based service!!
 
@@ -35,10 +43,12 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+//enable authentication and authorization process
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
-
+app.MapRazorPages();//mapping razor page routes
 app.Run();
