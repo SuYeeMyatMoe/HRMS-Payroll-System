@@ -12,7 +12,6 @@ builder.Services.AddControllersWithViews();
 var connectionString = builder.Configuration.GetConnectionString("HRMSDB_Connection");
 //Configure the DbContext to use SQL Server
 builder.Services.AddDbContext<HRMSWebDBContext>(options => options.UseSqlServer(connectionString));
-//and pass the connection string to the DbContext(options is a variable)
 
 //for identity
 builder.Services.AddRazorPages();//Register for Identity UIs
