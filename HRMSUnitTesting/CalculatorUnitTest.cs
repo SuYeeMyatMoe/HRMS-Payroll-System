@@ -12,7 +12,7 @@ namespace HRMSUnitTesting
         public void ShouldReturnTrueSum3Nubers()
         {
             // (1)Arrange
-            Calculator calculator = new Calculator();
+            Calculator calculator = new Calculator();//creat object of calculator
             int a = 1;
             int b = 2;
             int c = 3;
